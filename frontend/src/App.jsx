@@ -1,16 +1,26 @@
+import { Routes, Route } from "react-router-dom";
+import SignUpPage from "./pages/auth/signup/SignUpPage.jsx";
+import LoginPage from "./pages/auth/login/LoginPage.jsx";
+import HomePage from "./pages/home/HomePage.jsx";
+import Sidebar from "./components/common/SideBar.jsx";
+import RightPanel from "./components/common/RightPanel.jsx";
+import NotificationPage from "./pages/notification/NotificationPage.jsx";
+import ProfilePage from "./pages/profile/ProfilePage.jsx";
+
 function App() {
   return (
-    <>
-      <p className="text-5xl text-red-500">Hello, world!</p>
-      <button className="btn btn-neutral">Neutral</button>
-      <button className="btn btn-primary">Primary</button>
-      <button className="btn btn-secondary">Secondary</button>
-      <button className="btn btn-accent">Accent</button>
-      <button className="btn btn-info">Info</button>
-      <button className="btn btn-success">Success</button>
-      <button className="btn btn-warning">Warning</button>
-      <button className="btn btn-error">Error</button>
-    </>
+    <div className="flex max-w-6xl mx-auto">
+      <Sidebar />
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/notifications" element={<NotificationPage />} />
+        <Route path="/profile/:username" element={<ProfilePage />} />
+      </Routes>
+      <RightPanel />
+    </div>
   );
 }
 
