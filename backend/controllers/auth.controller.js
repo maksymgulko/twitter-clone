@@ -5,8 +5,8 @@ import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export const signupController = async (req, res) => {
   try {
-    const { fullname, username, email, password } = req.body;
-    if (!fullname || !username || !email || !password) {
+    const { fullName, username, email, password } = req.body;
+    if (!fullName || !username || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -37,7 +37,7 @@ export const signupController = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new UserCollection({
-      fullname,
+      fullName,
       username,
       email,
       password: hashedPassword,
@@ -49,7 +49,7 @@ export const signupController = async (req, res) => {
 
       res.status(201).json({
         _id: newUser._id,
-        fullname: newUser.fullname,
+        fullName: newUser.fullName,
         username: newUser.username,
         email: newUser.email,
         profilePicture: newUser.profilePicture,
@@ -81,7 +81,7 @@ export const loginController = async (req, res) => {
 
     res.status(200).json({
       _id: user._id,
-      fullname: user.fullname,
+      fullName: user.fullName,
       username: user.username,
       email: user.email,
       profilePicture: user.profilePicture,
