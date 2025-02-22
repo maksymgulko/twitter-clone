@@ -69,9 +69,8 @@ export const getRecommendedUsersController = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const followedByMe = await UserCollection.findById(userId).select(
-      "following"
-    );
+    const followedByMe =
+      await UserCollection.findById(userId).select("following");
 
     const users = await UserCollection.aggregate([
       {
@@ -81,7 +80,7 @@ export const getRecommendedUsersController = async (req, res) => {
     ]);
 
     const filteredUsers = users.filter(
-      (user) => !followedByMe.following.includes(user._id)
+      (user) => !followedByMe.following.includes(user._id),
     );
 
     const recommendedUsers = filteredUsers.slice(0, 4);
@@ -96,7 +95,8 @@ export const getRecommendedUsersController = async (req, res) => {
 };
 
 export const updateUserController = async (req, res) => {
-  const { fullname, username, email, currentPwd, newPwd, bio, link } = req.body;
+  const { fullName, username, email, currentPwd, newPwd, bio, link } = req.body;
+
   let { profilePicture, coverPicture } = req.body;
   const userId = req.user._id;
 
@@ -129,7 +129,7 @@ export const updateUserController = async (req, res) => {
     if (profilePicture) {
       if (user.profilePicture) {
         await cloudinary.uploader.destroy(
-          user.profilePicture.split("/").pop().split(".")[0]
+          user.profilePicture.split("/").pop().split(".")[0],
         );
       }
       const response = await cloudinary.uploader.upload(profilePicture);
@@ -138,14 +138,14 @@ export const updateUserController = async (req, res) => {
     if (coverPicture) {
       if (user.coverPicture) {
         await cloudinary.uploader.destroy(
-          user.coverPicture.split("/").pop().split(".")[0]
+          user.coverPicture.split("/").pop().split(".")[0],
         );
       }
       const response = await cloudinary.uploader.upload(coverPicture);
-      profilePicture = response.secure_url;
+      coverPicture = response.secure_url;
     }
 
-    user.fullname = fullname || user.fullname;
+    user.fullName = fullName || user.fullName;
     user.username = username || user.username;
     user.email = email || user.email;
     user.bio = bio || user.bio;
