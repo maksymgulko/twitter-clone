@@ -180,7 +180,7 @@ const Post = ({ post }) => {
                   {post.comments.length}
                 </span>
               </div>
-              {/* We're using Modal Component from DaisyUI */}
+
               <dialog
                 id={`comments_modal${post._id}`}
                 className="modal border-none outline-none"

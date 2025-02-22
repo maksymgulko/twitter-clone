@@ -88,13 +88,15 @@ const Sidebar = () => {
           >
             <div className="avatar hidden md:inline-flex">
               <div className="w-8 rounded-full">
-                <img src={authUser?.profileImg || "/avatar-placeholder.png"} />
+                <img
+                  src={authUser?.profilePicture || "/avatar-placeholder.png"}
+                />
               </div>
             </div>
             <div className="flex justify-between flex-1">
               <div className="hidden md:block">
                 <p className="text-white font-bold text-sm w-20 truncate">
-                  {authUser?.fullName}
+                  {authUser?.fullName || authUser?.fullname}
                 </p>
                 <p className="text-slate-500 text-sm">@{authUser?.username}</p>
               </div>
