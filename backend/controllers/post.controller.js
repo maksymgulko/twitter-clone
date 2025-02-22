@@ -83,7 +83,11 @@ export const likePostController = async (req, res) => {
         { $pull: { likedPosts: postId } }
       );
 
-      return res.status(200).json({ message: "Post unliked" });
+      const updatedLikes = post.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+
+      return res.status(200).json(updatedLikes);
     } else {
       //like post
       post.likes.push(userId);
@@ -100,7 +104,8 @@ export const likePostController = async (req, res) => {
       type: "like",
     });
     await notification.save();
-    return res.status(200).json({ message: "Post liked" });
+    const updatedLikes = post.likes;
+    return res.status(200).json(updatedLikes);
   } catch (error) {
     console.error("error in the likePostController ", error);
     return res.status(500).json({ error: error.message });
