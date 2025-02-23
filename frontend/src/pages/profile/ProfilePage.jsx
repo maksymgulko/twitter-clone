@@ -63,39 +63,40 @@ const ProfilePage = () => {
     refetch();
   }, [username, refetch]);
 
-  const { mutate: updateProfile, isPending: isUpdatingProfile } = useMutation({
-    mutationFn: async () => {
-      try {
-        const res = await fetch(`/api/users/update`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            profilePicture: profileImg,
-            coverPicture: coverImg,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error);
+  const { mutateAsync: updateProfile, isPending: isUpdatingProfile } =
+    useMutation({
+      mutationFn: async () => {
+        try {
+          const res = await fetch(`/api/users/update`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              profilePicture: profileImg,
+              coverPicture: coverImg,
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(data.error);
+          }
+          return data;
+        } catch (err) {
+          throw new Error(err.message);
         }
-        return data;
-      } catch (err) {
-        throw new Error(err.message);
-      }
-    },
-    onSuccess: () => {
-      toast.success("updated successfully");
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-        queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
-      ]);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+      },
+      onSuccess: () => {
+        toast.success("updated successfully");
+        Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+          queryClient.invalidateQueries({ queryKey: ["userProfile"] }),
+        ]);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
@@ -199,7 +200,11 @@ const ProfilePage = () => {
                 {(coverImg || profileImg) && (
                   <button
                     className="btn btn-primary rounded-full btn-sm text-white px-4 ml-2"
-                    onClick={() => updateProfile()}
+                    onClick={async () => {
+                      await updateProfile();
+                      setCoverImg(null);
+                      setProfileImg(null);
+                    }}
                   >
                     {isUpdatingProfile ? "Updating" : "Update"}
                   </button>
