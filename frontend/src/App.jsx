@@ -1,14 +1,14 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/auth/signup/SignUpPage.jsx";
 import LoginPage from "./pages/auth/login/LoginPage.jsx";
 import HomePage from "./pages/home/HomePage.jsx";
-import Sidebar from "./components/common/SideBar.jsx";
 import RightPanel from "./components/common/RightPanel.jsx";
 import NotificationPage from "./pages/notification/NotificationPage.jsx";
 import ProfilePage from "./pages/profile/ProfilePage.jsx";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/common/LoadingSpinner.jsx";
+import Sidebar from "./components/common/Sidebar.jsx";
 
 function App() {
   const { data: authUser, isLoading } = useQuery({
